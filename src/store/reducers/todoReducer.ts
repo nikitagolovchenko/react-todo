@@ -54,6 +54,21 @@ const todoReducer = (state: TodoState = initialState, action: TodoAction) => {
         loading: false,
         todos: state.todos ? [...state.todos, action.payload] : null,
       };
+
+    case TodoActions.CHANGE_TODO:
+      return {
+        ...state,
+        loading: false,
+        todos: state.todos
+          ? state.todos?.map((el) => {
+              if (el.id === action.payload.id) {
+                return { ...el, text: action.payload.text };
+              }
+
+              return el;
+            })
+          : null,
+      }
     default:
       return state;
   }

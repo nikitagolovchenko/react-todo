@@ -2,6 +2,7 @@ import { Box, Button, List, Typography } from '@material-ui/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  changeTodoAction,
   completeTodoAction,
   deleteAllCompletedAction,
   deleteTodoAction,
@@ -22,9 +23,13 @@ const TodoList: React.FC = () => {
     dispatch(deleteTodoAction(id));
   };
 
-  const deleteAllCompleted = ():void => {
+  const deleteAllCompleted = (): void => {
     dispatch(deleteAllCompletedAction());
-  }
+  };
+
+  const changeTodo = (id: string, text: string): void => {
+    dispatch(changeTodoAction(id, text));
+  };
 
   return (
     <>
@@ -36,12 +41,13 @@ const TodoList: React.FC = () => {
               key={el.id}
               completeTodo={completeTodo}
               deleteTodo={deleteTodo}
+              changeTodo={changeTodo}
             />
           );
         })}
       </List>
 
-      {todo.todos?.find((el) => el.completed) ? (
+      {todo.todos?.find(el => el.completed) ? (
         <Box textAlign='right' py={2}>
           <Button variant='outlined' size='small' onClick={deleteAllCompleted}>
             Delete all completed todos
@@ -49,7 +55,7 @@ const TodoList: React.FC = () => {
         </Box>
       ) : null}
 
-      {todo.todos?.length ? (
+      {todo.todos?.find(el => !el.completed) ? (
         <Box textAlign='center' py={2}>
           <Typography variant='overline'>
             To change the todo double click on the item

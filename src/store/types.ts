@@ -42,7 +42,10 @@ interface AddTodo {
 
 interface ChangeTodo {
   type: TodoActions.CHANGE_TODO;
-  payload: Todo;
+  payload: {
+    id: string;
+    text: string;
+  };
 }
 
 interface CompleteTodo {

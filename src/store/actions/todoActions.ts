@@ -165,6 +165,43 @@ export const addTodoAction = ({
   };
 };
 
+export const changeTodoAction = (
+  id: string,
+  text: string
+): ThunkAction<void, RootState, null, TodoAction> => {
+  return (dispatch) => {
+    dispatch(todoLoading());
+
+    const todoRef = db.collection('todos').doc(id);
+    todoRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          todoRef
+            .update({
+              text: text,
+            })
+            .then(() => {
+              dispatch({
+                type: TodoActions.CHANGE_TODO,
+                payload: {
+                  id,
+                  text
+                },
+              });
+            })
+
+            .catch((e) => {
+              dispatch(todoError(e));
+            });
+        }
+      })
+      .catch((e) => {
+        dispatch(todoError(e));
+      });
+  };
+};
+
 export const todoLoading = (): TodoAction => {
   return {
     type: TodoActions.TODO_LOADING,
