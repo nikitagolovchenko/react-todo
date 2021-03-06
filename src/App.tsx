@@ -30,7 +30,7 @@ const App: React.FC = () => {
   const switchHandler = () => {
     let newTheme: 'light' | 'dark' = themeMode === 'light' ? 'dark' : 'light';
     setThemeMode(newTheme);
-    localStorage.setItem('themeMode', themeMode);
+    localStorage.setItem('themeMode', newTheme);
   };
 
   const theme = createMuiTheme({
